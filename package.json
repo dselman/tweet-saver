@@ -23,8 +23,12 @@
   "homepage": "https://github.com/dselman/covid19#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
     "pg": "^7.0.0",
-    "twitter": "^1.7.1"
+    "socket.io": "^2.3.0",
+    "twitter": "^1.7.1",
+    "websocket": "^1.0.31"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

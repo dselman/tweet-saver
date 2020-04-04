@@ -18,7 +18,7 @@ stream.on('data', function(event) {
     if(log) {
       // console.log(JSON.stringify(event, null, 2));
       // console.log('***\n\n\n\n');
-      pool.query('INSERT INTO tweets (created_at, id_str, screen_name, user_location, user_followers_count, tweet_text, truncated) VALUES ($1, $2)', 
+      pool.query('INSERT INTO tweets (created_at, id_str, screen_name, user_location, user_followers_count, tweet_text, truncated) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
         [event.created_at, event.id_str, event.user.screen_name, event.user.location, event.user.followers_count, event.text, event.truncated], error => {
         if (error) throw error;
       });

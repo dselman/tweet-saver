@@ -23,7 +23,7 @@
   "homepage": "https://github.com/dselman/covid19#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "pg": "^8.0.0",
+    "pg": "^7.0.0",
     "twitter": "^1.7.1"
   },
   "devDependencies": {

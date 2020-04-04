@@ -56,7 +56,7 @@ stream.on('data', function(event) {
         meta: `Followers: ${event.user.followers_count}` + (event.user.location ? ` from ${event.user.location}` : '')
       };
       events.unshift(tweet);
-      events.length = 100;
+      events.length = Math.min(100, events.length);
       broadcast(tweet);
 
       if(process.env.LOGDB) {

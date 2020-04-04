@@ -5,6 +5,6 @@ CREATE TABLE tweets (
   screen_name VARCHAR(255) NOT NULL,
   user_location VARCHAR(255),
   user_followers_count integer,
-  tweet_text VARCHAR(255) NOT NULL,
+  tweet_text VARCHAR(512) NOT NULL,
   truncated boolean
 );

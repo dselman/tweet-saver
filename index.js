@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Twitter = require('twitter');
-const { pool } = require('./config');
+const { Client } = require('pg')
+const client = new Client()
 
 const client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -18,7 +19,7 @@ stream.on('data', function(event) {
     if(log) {
       // console.log(JSON.stringify(event, null, 2));
       // console.log('***\n\n\n\n');
-      pool.query('INSERT INTO tweets (created_at, id, screen_name, user_location, user_followers_count, text, truncated) VALUES ($1, $2)', 
+      pool.query('INSERT INTO tweets (created_at, id_str, screen_name, user_location, user_followers_count, tweet_text, truncated) VALUES ($1, $2)', 
         [event.created_at, event.id_str, event.user.screen_name, event.user.location, event.user.followers_count, event.text, event.truncated], error => {
         if (error) throw error;
       });

@@ -9,8 +9,13 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client/ && npm install && npm run build"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dselman/covid19.git"
@@ -28,7 +33,7 @@
     "pg": "^7.0.0",
     "socket.io": "^2.3.0",
     "twitter": "^1.7.1",
-    "websocket": "^1.0.31"
+    "ws": "^7.2.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

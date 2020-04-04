@@ -3,7 +3,8 @@ import { Feed, Header, Container } from 'semantic-ui-react';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import './App.css';
 
-const client = new W3CWebSocket('ws://127.0.0.1:8000');
+var host = window.location.origin.replace(/^http/, 'ws');
+const client = new W3CWebSocket(host);
 
 function App() {
 
@@ -24,8 +25,6 @@ function App() {
       }
     };
   }, [tweets]);
-
-  console.log(tweets);
 
   const body = (tweets && tweets.length > 0) ? <Feed events={tweets} /> : <p>Loading...</p>
 

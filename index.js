@@ -1,35 +1,32 @@
 const fs = require('fs');
+const path = require('path');
 const Twitter = require('twitter');
+const http = require('http');
+const WebSocket = require('ws');
+const express = require("express")
 const { pool } = require('./config');
 
-// Generates unique ID for every new connection
-const getUniqueID = () => {
-  const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  return s4() + s4() + '-' + s4();
+const app = express()
+
+// use the express-static middleware
+app.use(express.static(path.join(__dirname, 'client/build')))
+
+// cache of data to send to connecting clients
+const events = [];
+const server = http.createServer(app);
+
+//initialize the WebSocket server instance
+const webSocketServer = new WebSocket.Server({ server });
+
+const broadcast = json => {
+  webSocketServer.clients.forEach( client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(json));
+    }
+  });
 };
 
-const sendMessage = (json) => {
-  // We are sending the current data to all connected clients
-  Object.keys(clients).map((client) => {
-    clients[client].sendUTF(JSON.stringify(json));
-  });
-}
-
-// I'm maintaining all active connections in this object
-const clients = {};
-const events = [];
-
-const webSocketsServerPort = 8000;
-const webSocketServer = require('websocket').server;
-const http = require('http');
-// Spinning the http server and the websocket server.
-const server = http.createServer();
-server.listen(webSocketsServerPort);
-const wsServer = new webSocketServer({
-  httpServer: server
-});
-
-const client = new Twitter({
+  const client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
@@ -60,7 +57,7 @@ stream.on('data', function(event) {
       };
       events.unshift(tweet);
       events.length = 100;
-      sendMessage(tweet);
+      broadcast(tweet);
 
       if(process.env.LOGDB) {
           pool.query('INSERT INTO tweets (created_at, id_str, screen_name, user_location, user_followers_count, tweet_text, truncated) VALUES ($1, $2, $3, $4, $5, $6, $7)', 
@@ -83,20 +80,16 @@ stream.on('error', function(error) {
   throw error;
 });
 
-wsServer.on('request', function(request) {
-  var userID = getUniqueID();
-  console.log((new Date()) + ' Recieved a new connection from origin ' + request.origin + '.');
-  // You can rewrite this part of the code to accept only the requests from allowed origin
-  const connection = request.accept(null, request.origin);
-  clients[userID] = connection;
-  console.log('connected: ' + userID + ' in ' + Object.getOwnPropertyNames(clients));
-  connection.on('message', function(message) {
-    if (message.type === 'utf8') {
-      sendMessage(events);
-    }
-  });
-  // user disconnected
-  connection.on('close', function(connection) {
-    delete clients[userID];
-  });
+webSocketServer.on('connection', ws => {
+  console.log('Client connected.');
+  broadcast(events);
+});
+
+// start the server listening for requests
+// app.listen(process.env.PORT || 3000, 
+//   () => console.log("Server is running..."));
+
+
+  server.listen(process.env.PORT || 3000, () => {
+    console.log(`Server started on port ${server.address().port} :)`);
 });

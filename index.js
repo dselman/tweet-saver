@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Twitter = require('twitter');
-const { Client } = require('pg')
-const client = new Client()
+const { pool } = require('./config');
 
 const client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,

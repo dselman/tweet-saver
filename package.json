@@ -1,0 +1,32 @@
+{
+  "name": "covid19",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dselman/covid19.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dselman/covid19/issues"
+  },
+  "homepage": "https://github.com/dselman/covid19#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "pg": "^8.0.0",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

@@ -42,6 +42,8 @@ if(process.env.DELETE_ALL) {
 const excludes = process.env.EXCLUDE ? process.env.EXCLUDE.toUpperCase().split(',') : [];
 
 console.log(`Tracking tweets: ${process.env.TRACK}`);
+console.log(`Excluding tweets containing: ${excludes}`);
+
 const stream = client.stream('statuses/filter', {track: process.env.TRACK});
 stream.on('data', function(event) {
   if(event.user && event.user.screen_name && !event.retweeted_status) {

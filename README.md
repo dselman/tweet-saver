@@ -1,4 +1,4 @@
-# covid19
+# Tweet Saver
 
 This application monitors a Twitter stream for tweets which include keywords. The tweets containing the keywords are then filtered using some exclusion keywords and then persisted into a Postgres database for subsequent offline analysis.
 

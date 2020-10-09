@@ -21,3 +21,11 @@ The file `init.sql` defines the database schema used to persist the Tweets.
 - LOGDB : When true Tweets are stored in the database
 - LOG_FILE : When true Tweets are stored in a file
 - PORT : Port number used for the HTTP server
+- NODE_ENV : set the "production" to use an SSL database connection
+- PGUSER : Postgres user name
+- PGPASSWORD : Postgres password
+- PGHOST : Postgres host
+- PGPORT : Postgres port
+- PGDATABASE : Postgres database name
+- DATABASE_URL : Postgres database URL (used in production)
+- PUBLIC_URL : Public URL for the frontend application
